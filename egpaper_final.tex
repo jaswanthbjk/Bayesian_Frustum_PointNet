@@ -31,6 +31,10 @@
 Jaswanth Bandlamudi\\
 {Hochschule Bonn-Rhein sieg\\
  jaswanth.bandlamudi@smail.inf.h-brs.de}
+\and 
+Luis Octavio Arriaga Camargo\\
+{DFKI, Bremen\\
+ octavio.arriaga@dfki.de}
 \and
 Paul G Pl\"{o}ger\\
 {Hochschule Bonn-Rhein sieg\\
@@ -39,10 +43,7 @@ Paul G Pl\"{o}ger\\
 Anastassia K\"{u}stenmacher\\
 {Hochschule Bonn-Rhein sieg\\
  anastassia.k\"{u}stenmacher@h-brs.de}
-\and 
-Luis Octavio Arriaga Camargo\\
-{DFKI, Bremen\\
- octavio.arriaga@dfki.de}
+
 }
 
 \maketitle
@@ -50,36 +51,36 @@ Luis Octavio Arriaga Camargo\\
 
 %%%%%%%%% ABSTRACT
 \begin{abstract}
-   For safe operation of autonomous agents in the world around, an accurate perception and understanding is a must. Object detection is one of the problems in perception stack with an aim of localizing and classifying the object and this task is being accomplished using Deep Neural Networks with satisfactory results. But, the neural networks are deterministic in nature. Thereby, providing over confident results which lead to some catastrophic failures. On the other hand, Bayesian Neural Network can provide an extra measure of uncertainty along with the object proposals. In this work we are chose to compare the performances of the Fixed-weight Neural Networks and Bayesian Neural Networks on the task of localizing and classifying the objects in a 3D world. In the results we show that the fixed-weights neural networks were over-confident in detecting some objects. While, bayesian networks do provide a measure of uncertainty which represents that the model is not certain over the over-confident results given by fixed-weights neural networks.  
+   For the safe operation of autonomous agents in the world around, accurate perception and understanding are a must. Object detection is one of the problems in the perception stack to localize and classify the object and this task is being accomplished using Deep Neural Networks with satisfactory results. But, the neural networks are deterministic. Thereby, providing overconfident results which lead to some catastrophic failures. On the other hand, Bayesian Neural Network can provide an extra measure of uncertainty along with the object proposals. In this work, we choose to compare the performances of the Fixed-weight Neural Networks and Bayesian Neural Networks on the task of localizing and classifying the objects in a 3D world. In the results, we show that the fixed-weight neural networks were over-confident in detecting some objects. While Bayesian networks do provide a measure of uncertainty which represents that the model is not certain. 
 \end{abstract}
 
 %-------------------------------------------------------------------------
 %%%%%%%%% BODY TEXT
 \section{Introduction}
 
-Perceiving the outside environment consists of tasks like lane detection, vehicle detection and Vulnerable Road Users (VRU)\footnote{Vulnerable Road Users (VRU) are defined in the European Union Intelligent Transportation Systems Directive as "non-motorised road users, such as pedestrians and cyclists as well as motor-cyclists and persons with disabilities or reduced mobility and orientation".} detection. As the vehicles are operating in the 3D world, for better autonomous operation, the perception part assists in knowing the 3D position of the agents\footnote{Agents in this work refers to car, pedestrians and cyclist present in the operating environment} around \cite{KITTI2012}. This task has to be carried out with high accuracy and should be robust to adverse weather and lighting conditions. 
+Perceiving the outside environment consists of tasks like lane detection, vehicle detection, and Vulnerable Road Users (VRU)\footnote{Vulnerable Road Users (VRU) are defined in the European Union Intelligent Transportation Systems Directive as "non-motorized road users, such as pedestrians and cyclists as well as motorcyclists and persons with disabilities or reduced mobility and orientation".} detection. As the vehicles are operating in the 3D world, for better autonomous operation, the perception part assists in knowing the 3D position of the agents\footnote{Agents in this work refers to a car, pedestrians, and cyclist present in the operating environment} around \cite{KITTI2012}. This task has to be carried out with high accuracy and should be robust to adverse weather and lighting conditions. 
 
 The task of object detection is carried out with the usage of Deep Neural Networks(DNNs) \cite{Rao2018, Arnold2019} that use Cameras \cite{Chen2016, Mousavian2017, Chabot2017, Chen2017}, LiDAR \cite{VOTE3DEEP2017, Zhou2018, Sahba2019, Simon2018, Xiang2015} or a fusion of both \cite{Du2018, FPointnet2018, AVOD2018, FrustumConvnet2019}. This research is empowered by the datasets from KITTI \cite{KITTI2012}, Waymo\cite{Waymo2019}, nuTonomy\cite{Caesar2020}.
 
-But, there are failures while using DNNs in safety-related tasks. For example, \label{GoogleFailure} the image-classification model by Google had wrongly classified photos of some humans as gorillas \cite{Mulshine2015}. Another such failure was reported\label{Uberfailure}, when a self-driving car from Uber hit a jay-walking pedestrian and resulted in death \cite{SLJCW2018}. Both of these examples show that DNNs are prone to failures. Hence, their usage in safety-critical operations is hindered.
+But, there are failures while using DNNs in safety-related tasks. For example, \label{GoogleFailure} the image-classification model by Google had wrongly classified photos of some humans as gorillas \cite{Mulshine2015}. Another such failure was reported\label{Uberfailure} when a self-driving car from Uber hit a jay-walking pedestrian and resulted in death \cite{SLJCW2018}. Both of these examples show that DNNs are prone to failures. Hence, their usage in safety-critical operations is hindered.
 
-Deep Neural Networks (DNNs), since their inception have out-performed the conventional statistical approaches in both accuracy and generalizability. But they lack the ability to quantify uncertainty in the outputs. The classification models provide predictive probabilities which are softmax outputs of a model. But the softmax probabilities are wrongfully interpreted as an uncertainty metric. which leads to false positives with very high scores \cite{Blundell2015, Malinin2018}. This sort of behavior is unsolicited in applications like autonomous driving. Hence, These methods are not compatible to safety-critical applications. 
+Deep Neural Networks (DNNs), since their inception, have out-performed the conventional statistical approaches in both accuracy and generalizability. But they cannot quantify uncertainty in the outputs. The classification models provide predictive probabilities which are softmax outputs of a model. But the softmax probabilities are wrongfully interpreted as an uncertainty metric. which leads to false positives with very high scores \cite{Blundell2015, Malinin2018}. This sort of behavior is unsolicited in applications like autonomous driving. Hence, These methods are not compatible with safety-critical applications. 
 
-Bayesian Neural Networks (BNNs) \cite{tran2016edward, Shridhar2018, Tran2019} are a class of neural networks in which the weights are initialized as a distribution $p(w)$ and training includes obtaining a posterior distribution over weights represented by $p (w|D)$, where $D$ is the dataset on which the model is trained. $p (w|D)$ captures the model uncertainty. Additionally, BNNs also permit the knowledge of uncertainty source \cite{Henne2020}. The predictive uncertainty is classified into epistemic uncertainty and aleatoric uncertainty \cite{Kendall2017}. Aleatoric uncertainty is further classified into Homoscedastic uncertainty, which stays constant for different inputs and Heteroscedastic uncertainty varies with input and some being more affected because of the noise from the environment.
+Bayesian Neural Networks (BNNs) \cite{tran2016edward, Shridhar2018, Tran2019} are a class of neural networks in which the weights are initialized as a distribution $p(w)$ and training includes obtaining a posterior distribution over weights represented by $p (w|D)$, where $D$ is the dataset on which the model is trained. $p (w|D)$ captures the model uncertainty. Additionally, BNNs also permit the knowledge of uncertainty source \cite{Henne2020}. The predictive uncertainty is classified into epistemic uncertainty and aleatoric uncertainty \cite{Kendall2017}. Aleatoric uncertainty is further classified into Homoscedastic uncertainty, which stays constant for different inputs and Heteroscedastic uncertainty varies with input, and some being more affected because of the noise from the environment.
 
 
 \subsection{Contributions}
-In this work, we develop Flipout based Bayesian neural network \cite{Wen2018} methods to capture epistemic uncertainty in a Frustum-PointNet based 3D object detector. Our contributions are three-fold:
+In this work, we develop Flipout-based Bayesian neural network \cite{Wen2018} methods to capture epistemic uncertainty in a Frustum-PointNet based 3D object detector. Our contributions are three-fold:
 \begin{itemize}
-    \item Does the Bayesian model perform at the same level of a Fixed-Weight model?
-    \item Can a BNNs version of the 3D object detection be modeled and trained?
-    \item Can the outcomes of the Bayesian model be explained ?
+     \item Can a BNNs version of the 3D object detection be modeled and trained?
+    \item Does the Bayesian model perform at the same level as a Fixed-Weight model?
+    \item Can the outcomes of the Bayesian model be explained?
 \end{itemize}
     
-    Along with answering the above questions we also provide literature review of the 3D object detection methods and uncertainty quantification techniques using BNNs.
+    Along with answering the above questions we also provide a literature review of the 3D object detection methods and uncertainty quantification techniques using BNNs.
 %-------------------------------------------------------------------------
 \section{Related Works}
-In this section we summarize about various 3D object detection methods and different bayesian neural network architectures for extracting uncertainty using the chosen 3D object detection network.
+In this section, we summarize various 3D object detection methods and different bayesian neural network architectures for extracting uncertainty using the chosen 3D object detection network.
 
 \subsection{3D object detection in Autonomous Driving}
 The main aim of the 3D object detection model is to take RGB image along with depth information from sensors like Light Detection and Ranging (LiDAR), cameras, Radio Detection and Ranging (RADAR), and output a 3D bounding box along with class labels of the agents in the perceived environment. It is also referred to as amodal 3D object detection \cite{Arnold2019}, which means the model should fit a 3D bounding box for the whole object even though only a part of it is visible.
@@ -92,7 +93,7 @@ The main aim of the 3D object detection model is to take RGB image along with de
 % \subsubsection{Sensor Fusion based 3D Object Detection}
 The best-performing methods for 3D object detection are majorly fusion-based because of the dense input similar to human vision provided by the camera and the depth information provided by the LiDAR point cloud and combining both of them helps to understand the depth of the scene as well as its semantics.
 
-In the work reported by \textit{Du et al.} \cite{Du2018}, a pre-trained 2D detection network proposes a candidate for a bounding box this information is fused with the 3D features from the point cloud and the 3D parameters are regressed with it. MV3D \cite{MV3D2017} by \textit{Chen et al.}, in which three inputs RGB image, point cloud projected onto the front view, and BEV point cloud are consumed. The front view projection provides information about height, intensity, and distance and the BEV images hold density, intensity, and height information. Then an RPN generates 3D object proposals from BEV only and these proposals are projected to multiple views. AVOD is proposed by \textit{Ku et al.} \cite{AVOD2018}, a deep continuous fusion paradigm is utilized where a 2D BEV projection map is fed to a CNN and another CNN extracts feature maps from the monocular image. These features are fed to a parallel network, which consists of an RPN and a detection network. Frustum-PointNet proposed by \textit{Qi et al.} \cite{FPointnet2018}, where a 2D object detector is used to generate a detection in 2D and this 2D detection is used to reduce the search space in order to process only the required part of the point cloud where the object presence is given. The frustum generated is fed to an encoder-decoder based instance segmentation network which assigns the labels to the points in the point cloud based on the class label. This helps in finding the objects when there is a presence of partial occlusion. The segmented point cloud is passed to a PointNet \cite{Pointnet2017} based amodal bounding box estimation which regresses the 3D bounding boxes.
+In the work reported by \textit{Du et al.} \cite{Du2018}, a pre-trained 2D detection network proposes a candidate for a bounding box this information is fused with the 3D features from the point cloud, and the 3D parameters are regressed with it. MV3D \cite{MV3D2017} by \textit{Chen et al.}, in which three inputs RGB image, point cloud projected onto the front view, and BEV point cloud are consumed. The front view projection provides information about height, intensity, and distance and the BEV images hold density, intensity, and height information. Then an RPN generates 3D object proposals from BEV only and these proposals are projected to multiple views. AVOD is proposed by \textit{Ku et al.} \cite{AVOD2018}, a deep continuous fusion paradigm is utilized where a 2D BEV projection map is fed to a CNN and another CNN extracts feature maps from the monocular image. These features are fed to a parallel network, which consists of an RPN and a detection network. Frustum-PointNet proposed by \textit{Qi et al.} \cite{FPointnet2018}, where a 2D object detector is used to generate a detection in 2D and this 2D detection is used to reduce the search space to process only the required part of the point cloud where the object presence is given. The frustum generated is fed to an encoder-decoder-based instance segmentation network which assigns the labels to the points in the point cloud based on the class label. This helps in finding the objects when there is a presence of partial occlusion. The segmented point cloud is passed to a PointNet \cite{Pointnet2017} based amodal bounding box estimation which regresses the 3D bounding boxes.
 
 \subsection{Bayesian Neural Networks}
 In conventional DNNs, weights are modeled as point estimates which is unjustified. These point estimates resulted in the network being deterministic for provided inputs. Whereas, Bayesian Neural Networks (BNNs) models the weights as a distribution of weights defined over the given dataset $D$. This helps in extracting uncertainty by sampling weights from the posterior distribution of weights.
@@ -102,7 +103,7 @@ Let us consider a dataset $D=\left\{\left(x^{(1)}, y^{(1)}\right),\left(x^{(2)},
         \label{Training_Bayes_Rule}
         p(w \mid D)=\frac{p(D \mid w) p(w)}{p(D)}
     \end{equation}
-Calculating the denominator $p(D)$ is not manageable because of the integration over all the weights. The DNNs generally has millions of weights and integrating all over them is tedious and is computationally intensive. Hence, we estimate the $p(w \mid D)$ distribution.
+Calculating the denominator $p(D)$ is not manageable because of the integration over all the weights. The DNNs generally have millions of weights and integrating all over them is tedious and is computationally intensive. Hence, we estimate the $p(w \mid D)$ distribution.
 
 \textit{Graves et al,} \cite{Graves2011} proposed that the posterior distribution $p(w \mid D)$ can be approximated to be a parameterized distribution $q(w)$ and optimize those distributions over the weight parameters to obtain the best approximation.
         
@@ -114,7 +115,7 @@ The approximation is judged using Kullback-Leibler (KL) divergence \cite{Kullbac
         \end{aligned}
     \end{equation}
 
-Hence, VI poses the problem of finding the $p(w \mid D)$ into a maximizing ELBO problem. Once the optimization problem is defined we can use Bayes by backprop by \textit{Shridhar et al.} \cite{shridhar2018uncertainty}, to extract the best approximation of posterior which maximizes the ELBO. Bayes by Back-propagation was first introduced by \textit{Blundell et al.} \cite{Blundell2015}, which allowed the usage of current back-propagation algorithm work by replacing the weights with a parameterized distribution. Hence, the optimal parameters $\theta^{opt}$ which consists of respective mean and variance ($\mu , \sigma$) are defined as  
+Hence, VI poses the problem of finding the $p(w \mid D)$ into a maximizing ELBO problem. Once the optimization problem is defined we can use Bayes by backprop by \textit{Shridhar et al.} \cite{shridhar2018uncertainty}, to extract the best approximation of posterior which maximizes the ELBO. Bayes by Back-propagation was first introduced by \textit{Blundell et al.} \cite{Blundell2015}, which allowed the usage of current back-propagation algorithm work by replacing the weights with a parameterized distribution. Hence, the optimal parameters $\theta^{opt}$ which consists of respective mean and variance ($\mu, \sigma$) are defined as  
         
 \begin{equation}
 \label{optim_param}
@@ -130,22 +131,22 @@ Substituting this in Equation \ref{optim_param} we get,
     \theta^{*}=\operatorname{argmin}_{\theta}\newline \mathbb{E}_{q(\mathbf{w} \mid \theta)} f(\mathbf{w}, \theta)
 \end{equation}
 
-But, the above object function cannot be used with a standard back-propagation algorithm. This is due to the inability to achieve a differentiation of the objective function. Hence, \textit{Kingma et al} \cite{Kingma2015} proposed a reparameterization trick in which the gradients are calculated through general back-propagation and also reducing the variance. In case of CNNs, \textit{Shridhar et al.} proposed to sample layer activations instead of weights, it results in a estimated posterior distribution $q_{\theta}\left(\theta_{\mathrm{i} j h w} \mid D a t a\right)$.The resultant equation for sampling the activation is written as 
+But, the above objective function cannot be used with a standard back-propagation algorithm. This is due to the inability to achieve differentiation of the objective function. Hence, \textit{Kingma et al} \cite{Kingma2015} proposed a reparameterization trick in which the gradients are calculated through general back-propagation and also reducing the variance. In case of CNNs, \textit{Shridhar et al.} proposed to sample layer activations instead of weights, it results in a estimated posterior distribution $q_{\theta}\left(\theta_{\mathrm{i} j h w} \mid D a t a\right)$.The resultant equation for sampling the activation is written as 
         
 \begin{equation}b_{j}=A_{\mathrm{i}} * \mu_{\mathrm{i}}+\varepsilon_{j} \cdot \sqrt{A_{\mathrm{i}}^{2} *\left(\alpha_{\mathrm{i}} \cdot \mu_{\mathrm{i}}^{2}\right)}\end{equation}
 
 $b$ is the layer activation, $\varepsilon_{j} \epsilon N(0,1)$, $ A $ is the receptive field area.
 
 \textit{Flipout based Weight-sampling methods:}
-In order to perform inference for a new input $x^{*}$ given a VI approximation $q(w)$ there is a need to sample the weights from the approximation for every inference run performed in order to extract $p\left(y^{*} \mid x^{*}, w\right)$.using Flipout \cite{Tran2019} introduced in \textit{Wen et al.}. This method aims to uncorrelate the gradients between every sample. This work achieved by making some assumptions which are 
+To perform inference for a new input $x^{*}$ given a VI approximation $q(w)$ there is a need to sample the weights from the approximation for every inference run performed to extract $p\left(y^{*} \mid x^{*}, w\right)$.using Flipout \cite{Tran2019} introduced in \textit{Wen et al.}. This method aims to uncorrelated the gradients between every sample. This work achieved by making some assumptions that are 
 \begin{enumerate}
  \item The sampling of different weights is independent of each other. 
  \item The posterior distribution is symmetric around 0. 
 \end{enumerate}
 
-Flipout suggests to use a posterior distribution ($q_{\theta}$) which is jointly used by each and every weight sample on the mini-batch and an element-wise multiplication is performed by another rank-one sign matrix for every sample. A random sign matrix $E$ which is independent of posterior distribution $q_{\theta}$. The weight sampling is done by multiplying $E$ and the posterior distribution $$W = q_{\theta}, E$$.
+Flipout suggests using a posterior distribution ($q_{\theta}$) which is jointly used by every weight sample on the mini-batch and an element-wise multiplication is performed by another rank-one sign matrix for every sample. A random sign matrix $E$ which is independent of posterior distribution $q_{\theta}$. The weight sampling is done by multiplying $E$ and the posterior distribution $$W = q_{\theta}, E$$.
 
-With the availability of the approximation $q(w)$ of $p(w \mid D)$ obtained using VI method we can infer an output $y^{*}$ for any given input $x^{*}$ by integrating over the weights available as shown in Equation \ref{final_inference}.
+With the availability of the approximation $q(w)$ of $p(w \mid D)$ obtained using the VI method we can infer an output $y^{*}$ for any given input $x^{*}$ by integrating over the weights available as shown in Equation \ref{final_inference}.
 
 \begin{equation}
     \label{final_inference}
@@ -168,10 +169,10 @@ With the availability of the approximation $q(w)$ of $p(w \mid D)$ obtained usin
 % % \subsection{Loss function}
 % %-------------------------------------------------------------------------
 \section{Epistemic Uncertainty Quantification}
-In this section we will summarize the method to quantify the uncertainty in 3D object detection.
+In this section, we will summarize the method to quantify the uncertainty in 3D object detection.
 \subsection{Quantifying Epistemic Uncertainty in Classification}
         \label{uncertainty in classification}
-        Uncertainty in classification can be quantified using the Shannon entropy of the final softmax scores in Equation \ref{Classification Uncertainty Equation}. As used by \textit{Feng et al.} \cite{Feng2018}. For an input of $x^{*}$ the classification probability of class for N with the availability of the probability score is calculated using Equation \ref{prob_calc}. This probability is used to calculate Shannon entropy (SE) using Equation \ref{Classification Uncertainty Equation}
+        Uncertainty in classification can be quantified using the Shannon entropy of the final softmax scores in Equation \ref{Classification Uncertainty Equation}. As used by \textit{Feng et al.} \cite{Feng2018}. For an input of $x^{*}$, the classification probability of class for N with the availability of the probability score is calculated using Equation \ref{prob_calc}. This probability is used to calculate Shannon entropy (SE) using Equation \ref{Classification Uncertainty Equation}
 
         \begin{equation}
             \label{prob_calc}
@@ -190,11 +191,11 @@ In this section we will summarize the method to quantify the uncertainty in 3D o
             \end{array}
         \end{equation}
         
-        If the SE value is zero, then the network is most certain of the output and when SE value is higher the network is not certain of the classification result.
+        If the SE value is zero, then the network is most certain of the output and when the SE value is higher the network is not certain of the classification result.
         
          \subsection{Quantifying Epistemic Uncertainty in Regression}
          \label{uncertainty in bounding box regression}
-         In order to find the spatial uncertainty in the bounding box parameters \textit{Feng et al.} \cite{Feng2018} proposed to calculate Total Variance (TV), which  represents how much each measurement varies from their mean value.
+         To find the spatial uncertainty in the bounding box parameters \textit{Feng et al.} \cite{Feng2018} proposed to calculate Total Variance (TV), which represents how much each measurement varies from their mean value.
          
          \begin{enumerate}
              \item Transform the bounding box detections into world reference frame and the mean value of the detections regressed during N forward passes is calculated.
@@ -202,10 +203,10 @@ In this section we will summarize the method to quantify the uncertainty in 3D o
              \item Total variance is calculating by taking the trace of the covariance matric $C(x^{*})$.
          \end{enumerate}
          
-         The Total variance spans from $[0,+\infty)$, the higher the value represents higher the epistemic uncertainty in regressed bounding box parameters.
+         The Total variance spans from $[0,+\infty)$, the higher the value represents the higher the epistemic uncertainty in regressed bounding box parameters.
 %-------------------------------------------------------------------------
 \section{Experimental Results}
-In this sections we explain various experiments, their results and comparing the performance of different networks. 
+In this section, we explain various experiments, their results, and comparing the performance of different networks. 
 \subsection{Training Frustum-PointNet }
 The main aim of this experiment is to train a  Frustum-PointNet using Lyft dataset. The model is trained using a total of 230,944 samples divided into 7,217 training samples of batch size 32. The training is done for 178 (i,e. Three days) epochs.
 % \begin{figure}[h]
@@ -390,11 +391,11 @@ The epistemic uncertainty of the car marked in red is at a distance from the ego
 \end{figure}
 %-------------------------------------------------------------------------
 \section{Conclusion and Future works}
-In this research and development project, Frustum-PointNet \cite{FPointnet2018} is modelled to solve the 3-Dimensional (3D) object detection problem in the context of Autonomous driving. The network is trained and tested on Lyft dataset \cite{Lyft2019}. We observed that the network performed on same level as the network trained using KITTI dataset \cite{KITTI2012}. The comparison is done based on 3D Average-Precision values calculated using fixed limits set on Intersection-over-Union values.
+In this research and development project, Frustum-PointNet \cite{FPointnet2018} is modeled to solve the 3-Dimensional (3D) object detection problem in the context of Autonomous driving. The network is trained and tested on Lyft dataset \cite{Lyft2019}. We observed that the network performed on the same level as the network trained using KITTI dataset \cite{KITTI2012}. The comparison is done based on 3D Average-Precision values calculated using fixed limits set on Intersection-over-Union values.
     
-We also modelled a Bayesian Neural Network based on Frustum-PointNet \cite{FPointnet2018} to extract the uncertainty due to the weights in the Frustum-PointNet \cite{FPointnet2018} model. We also concluded that the Bayesian Neural Network performed better than the Fixed-weight model. But, we observed that the difference in performance is not as expected. We believe that with better tuning of the prior distribution placed on the weights, we can achieve better results. 
+We also modeled a Bayesian Neural Network based on Frustum-PointNet \cite{FPointnet2018} to extract the uncertainty due to the weights in the Frustum-PointNet \cite{FPointnet2018} model. We also concluded that the Bayesian Neural Network performed better than the Fixed-weight model. But, we observed that the difference in performance is not as expected. We believe that with the better tuning of the prior distribution placed on the weights, we can achieve better results. 
 
-Further analysis on the extracted uncertainty also showed that the model is over-confident over some samples. We also visualized some samples which represented the models over-confidence and confirm the need for the usage of uncertainty as a measure of confidence. 
+Further analysis on the extracted uncertainty also showed that the model is over-confident over some samples. We also visualized some samples which represented the model's over-confidence and confirm the need for the usage of uncertainty as a measure of confidence. 
 
 
 {\small
