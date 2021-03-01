@@ -70,14 +70,14 @@ BNNs \cite{tran2016edward, Shridhar2018, Tran2019} are a class of neural network
 
 
 \subsection{Contributions}
-In this work, we develop Flipout-based Bayesian neural network \cite{Wen2018} methods to capture uncertainty in a Frustum-PointNet based 3D object detector. We answered the following questions in this work:
+In this work, we develop a Flipout-based Bayesian neural network \cite{Wen2018} architecture to capture the uncertainty of a Frustum-PointNet for 3D object detection. The main contributions of this paper are: 
 \begin{itemize}
-    \item Can a BNNs version of the 3D object detection be modeled and trained?
-    \item Does the Bayesian model perform at the same level as a Fixed-Weight model?
-    \item Can the outcomes of the Bayesian model be explained?
+    \item We successfully combined BNNs and Frustum-PointNets for 3D object detection 
+    \item We obtain slightly better results using our Bayesian model versus the fixed-weight architecture
+    \item We provide a quantiative and a qualitative depiction of uncertainty.
 \end{itemize}
     
-    Along with answering the above questions we also provide a literature review of the 3D object detection methods and uncertainty quantification techniques using BNNs.
+    Along with the above elements we also provide a literature review of the 3D object detection methods and the uncertainty quantification techniques used in BNNs.
 %-------------------------------------------------------------------------
 \section{Related Works}
 In this section, we summarize various 3D object detection methods and different BNN architectures for extracting uncertainty using the chosen 3D object detection network.
