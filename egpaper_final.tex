@@ -394,11 +394,12 @@ The epistemic uncertainty of the car marked in red is at a distance from the ego
 \end{figure}
 %-------------------------------------------------------------------------
 \section{Conclusion and Future works}
-In this research and development project, Frustum-PointNet \cite{FPointnet2018} is modeled to solve the 3-Dimensional (3D) object detection problem in the context of Autonomous driving. The network is trained and tested on Lyft dataset \cite{Lyft2019}. We observed that the network performed on the same level as the network trained using KITTI dataset \cite{KITTI2012}. The comparison is done based on 3D Average-Precision values calculated using fixed limits set on Intersection-over-Union values.
+In this paper we first train a point-wise Frustum-PointNet \cite{FPointnet2018} architecture to solve the 3-Dimensional (3D) object detection problem in the context of autonomous driving. The network is trained and tested on Lyft dataset \cite{Lyft2019}. We observed that the network performed on the same level as the network trained using KITTI dataset \cite{KITTI2012}. The comparison is done based on 3D Average-Precision values calculated using fixed limits set on Intersection-over-Union values.
     
-We also modeled a Bayesian Neural Network based on Frustum-PointNet \cite{FPointnet2018} to extract the uncertainty due to the weights in the Frustum-PointNet \cite{FPointnet2018} model. We also concluded that the Bayesian Neural Network performed better than the Fixed-weight model. But, we observed that the difference in performance is not as expected. We believe that with the better tuning of the prior distribution placed on the weights, we can achieve better results. 
+Furthermore, we also modeled a Bayesian Neural Network based on the Frustum-PointNet \cite{FPointnet2018} to extract the uncertainty due to the weights. We concluded that the BNN performed better than the fixed-weight model.
+% But, we observed that the difference in performance is not as expected. We believe that with the better tuning of the prior distribution placed on the weights, we can achieve better results.  ??
 
-Further analysis on the extracted uncertainty also showed that the model is over-confident over some samples. We also visualized some samples which represented the model's over-confidence and confirm the need for the usage of uncertainty as a measure of confidence. 
+Further analysis on the extracted uncertainty showed that the point-wise model is over-confident. We visualized some samples which represented the model's over-confidence and confirm the need for the usage of uncertainty as a measure of confidence.
 
 
 {\small
