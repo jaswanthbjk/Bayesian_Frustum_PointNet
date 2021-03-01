@@ -133,20 +133,20 @@ Substituting this in Equation \ref{optim_param} we get,
 
 But, the above objective function cannot be used with a standard back-propagation algorithm. This is due to the inability to achieve differentiation of the stochastic node inside the objective function. Hence, \textit{Kingma et al} \cite{Kingma2015} proposed a reparameterization trick by representing the stochastic node as a point value parameterized by a distribution from which a scale value for the weights can be sampled from. This resulted in gradient calculation through general back-propagation. 
 
-In case of CNNs, \textit{Shridhar et al.} proposed to sample layer activations instead of weights, it results in a estimated posterior distribution $q_{\theta}\left(\theta_{\mathrm{i} j h w} \mid D a t a\right)$.The resultant equation for sampling the activation is written as 
+In case of CNNs, \textit{Shridhar et al.} proposed to sample layer activations instead of weights, this results in a estimated posterior distribution $q_{\theta}\left(\theta_{\mathrm{i} j h w} \mid D a t a\right)$.The resultant equation for sampling the activation is written as 
         
 \begin{equation}b_{j}=A_{\mathrm{i}} * \mu_{\mathrm{i}}+\varepsilon_{j} \cdot \sqrt{A_{\mathrm{i}}^{2} *\left(\alpha_{\mathrm{i}} \cdot \mu_{\mathrm{i}}^{2}\right)}\end{equation}
 
 $b$ is the layer activation, $\varepsilon_{j} \epsilon N(0,1)$, $ A $ is the receptive field area.
 
 \textit{Flipout based Weight-sampling methods:}
-Though the reparameterization method is able to achieve a VI approximation $q(w)$ by backpropogation. But the resultant weight updates in batch are correlated resulting in updates with high variance. Flipout is introduced in \textit{Wen et al.} aims to decorrelate the gradients between every sample. This work achieved by making some assumptions that are 
+Though the reparameterization method is able to achieve a VI approximation $q(w)$ by backpropogation. But the resultant weight updates in batch are correlated resulting in updates with high variance. Flipout is introduced in \textit{Wen et al.} aims to decorrelate the gradients between every sample. This work achieved by making the following assumptions:
 \begin{enumerate}
  \item The sampling of different weights is independent of each other. 
  \item The posterior distribution is symmetric around 0. 
 \end{enumerate}
 
-Flipout suggests using a posterior distribution ($q_{\theta}$) which is jointly used by every weight sample on the mini-batch and an element-wise multiplication is performed by another rank-one sign matrix for every sample. A random sign matrix $E$ which is independent of posterior distribution $q_{\theta}$. The weight sampling is done by multiplying $E$ and the posterior distribution $$W = q_{\theta}, E$$.
+Flipout suggests using a posterior distribution ($q_{\theta}$) which is jointly used by every weight sample on the mini-batch, and an element-wise multiplication is performed by another rank-one sign matrix for every sample. A random sign matrix $E$ which is independent of posterior distribution $q_{\theta}$. The weight sampling is done by multiplying $E$ and the posterior distribution $$W = q_{\theta}, E$$.
 
 With the availability of the approximation $q(w)$ of $p(w \mid D)$ obtained using the VI method we can infer an output $y^{*}$ for any given input $x^{*}$ by integrating over the weights available as shown in Equation \ref{final_inference}.
 
