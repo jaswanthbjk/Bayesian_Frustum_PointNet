@@ -49,7 +49,7 @@ anastassia.k\"{u}stenmacher@h-brs.de\\
 
 %%%%%%%%% ABSTRACT
 \begin{abstract}
-    Accurate perception and understanding of a scene is a pre-requisite for the safe operation of autonomous agents. Current state-of-the-art methods use Deep Neural Networks (DNN) in order to localize and classify objects. However, these neural networks are often point estimates which often provide overconfident results. This may lead to catastrophic failures, especially in an application such as autonomous driving. In contrast, Bayesian Neural Networks (BNNs) can provide an extra measure of uncertainty together with the object proposals. Thus, in this work we compare the performance of fixed-weight neural networks versus BNNs in the task of localization and classification of objects in 3D space. The results show that fixed-weight neural networks are indeed over-confident in 3D detection task, while BNNs provide an uncertainty estimation, while still retaining the same accuracy.
+    Accurate perception and understanding of a scene is a pre-requisite for the safe operation of autonomous agents. Current state-of-the-art methods use Deep Neural Networks (DNN) in order to localize and classify objects. However, the parameters of neural networks are often point estimates which often provide overconfident results. This may lead to catastrophic failures, especially in an application such as autonomous driving. In contrast, Bayesian Neural Networks (BNNs) can provide an additional measure of uncertainty together with the object proposals. Thus, in this work we compare the performance of fixed-weight neural networks versus BNNs in the task of localization and classification of objects in 3D space. The results show that fixed-weight neural networks are indeed over-confident in 3D detection task, while BNNs provide an uncertainty estimation, while still retaining the same accuracy.
 \end{abstract}
 
 %-------------------------------------------------------------------------
@@ -58,7 +58,7 @@ anastassia.k\"{u}stenmacher@h-brs.de\\
 
 In order to properly perceive the environment, autonomous cars must be able to reliably solve tasks such as lane detection, vehicle detection, as well as Vulnerable Road Users (VRU)\footnote{Vulnerable Road Users (VRU) are defined in the European Union Intelligent Transportation Systems Directive as "non-motorized road users, such as pedestrians and cyclists as well as motorcyclists and persons with disabilities or reduced mobility and orientation".} detection. Thus, autonomous cars require the vehicle's perception module to predict the 3D position of the agents\footnote{Agents in this work refers to a car, pedestrians, and cyclist present in the operating environment} in the proximity ~\cite{KITTI2012}. This task has to be carried out with high accuracy and should be robust against adverse weather, occlusions and extreme lighting conditions. 
 
-The task of object detection is carried out with Deep Neural Networks(DNNs) \cite{Rao2018, Arnold2019} that use RGB cameras \cite{Chen2016, Mousavian2017, Chabot2017, Chen2017}, LiDAR \cite{VOTE3DEEP2017, Zhou2018, Sahba2019, Simon2018, Xiang2015} or a fusion of both \cite{Du2018, FPointnet2018, AVOD2018, FrustumConvnet2019}. Furthermore, advances in this research have been enabled by datasets such as KITTI \cite{KITTI2012}, Waymo\cite{Waymo2019}, and nuTonomy\cite{Caesar2020}.
+The task of object detection is carried out with Deep Neural Networks (DNNs) \cite{Rao2018, Arnold2019} that use RGB cameras \cite{Chen2016, Mousavian2017, Chabot2017, Chen2017}, LiDAR \cite{VOTE3DEEP2017, Zhou2018, Sahba2019, Simon2018, Xiang2015} or a fusion of both \cite{Du2018, FPointnet2018, AVOD2018, FrustumConvnet2019}. Furthermore, advances in this research have been enabled by datasets such as KITTI \cite{KITTI2012}, Waymo \cite{Waymo2019}, and nuTonomy \cite{Caesar2020}.
 
 However, failures do occur using DNNs in safety-related tasks. \label{GoogleFailure} The image-classification model by Google, for example, incorrectly classified photos of humans as gorillas \cite{Mulshine2015}. Another such failure occured \label{Uberfailure} when a self-driving car hit a jay-walking pedestrian resulting in the pedestrians death \cite{SLJCW2018}.
 
@@ -70,12 +70,12 @@ BNNs \cite{tran2016edward, Shridhar2018, Tran2019} are a class of neural network
 \subsection{Contributions}
 In this work, a Flipout-based Bayesian Neural Network \cite{Wen2018} architecture is developed to capture the uncertainty of a Frustum-PointNet for 3D object detection. The main achievements in this paper are: 
 \begin{itemize}
-    \item BNNs and Frustum-PointNets have been successfully combined for 3D object detection 
-    \item Marginally better results were obtained using the Bayesian model versus the fixed-weight architecture
+    \item BNNs and Frustum-PointNets have been successfully combined for 3D object detection.
+    \item Marginally better results were obtained using the Bayesian model versus the fixed-weight architecture.
     \item Both a quantitative and a qualitative depiction of uncertainty are provided.
 \end{itemize}
     
-    In addition to the above a literature review of the 3D object detection methods and the uncertainty quantification techniques used in BNNs is given.
+    In addition to the above contributions, a literature review of the 3D object detection methods and the uncertainty quantification techniques used in BNNs is given.
 %-------------------------------------------------------------------------
 \section{Related Work}
 In this section, various 3D object detection methods, as well as different BNN architectures for extracting uncertainty using the chosen 3D object detection network are summarized.
@@ -95,7 +95,7 @@ In the work reported by \textit{Du et al.} \cite{Du2018}, a pre-trained 2D detec
 
 \begin{figure*}
 	\centering
-	\includegraphics[scale = 0.25]{images/Frustum_PointNet.png}
+	\includegraphics[scale = 0.335]{images/Frustum_PointNet.png}
 	\caption{Frustum PointNet for 3D Object Detection in Autonomous driving.}
 	\label{fig:frustumpointnet}
 \end{figure*}
@@ -103,7 +103,7 @@ In the work reported by \textit{Du et al.} \cite{Du2018}, a pre-trained 2D detec
 \subsection{Bayesian Neural Networks}
 In conventional DNNs, weights are modeled as point estimates. These point estimates resulted in the network being deterministic for provided inputs. Whereas, Bayesian Neural Networks (BNNs) models the weights as a distribution of weights defined over the given dataset $D$. This helps in extracting uncertainty by sampling weights from the posterior distribution of weights.
 
-Let us consider a dataset $D=\left\{\left(x^{(1)}, y^{(1)}\right),\left(x^{(2)}, y^{(2)}\right), \ldots,\left(x^{(N)}, y^{(N)}\right)\right\}$, and $w$ be the weights of the neural network that are to be learnt from the dataset $D$ provided. The posterior distribution $p(w \mid D)$ is obtained by applying Bayes rule as in Equation \ref{Training_Bayes_Rule}
+Let us consider a dataset $D=\left\{\left(x^{(1)}, y^{(1)}\right),\left(x^{(2)}, y^{(2)}\right), \ldots,\left(x^{(N)}, y^{(N)}\right)\right\}$, and $w$ be the weights of the neural network that are to be learnt from the dataset $D$ provided. The posterior distribution $p(w \mid D)$ is obtained by applying Bayes rule as in equation \ref{Training_Bayes_Rule}
     \begin{equation}
         \label{Training_Bayes_Rule}
         p(w \mid D)=\frac{p(D \mid w) p(w)}{p(D)}
@@ -112,7 +112,7 @@ Calculating the denominator $p(D)$ is not possible because of the integration ov
 
 \textit{Graves et al,} \cite{Graves2011} proposed that the posterior distribution $p(w \mid D)$ can be approximated to be a parameterized distribution $q(w)$ and optimize those distributions over the weight parameters to obtain the best approximation.
         
-The approximation is judged using Kullback-Leibler (KL) divergence \cite{Kullback1959} as shown in Equation \ref{KL-D}.
+The approximation is judged using Kullback-Leibler (KL) divergence \cite{Kullback1959} as shown in equation \ref{KL-D}.
     \begin{equation}
         \label{KL-D}
         \begin{aligned}
@@ -131,7 +131,7 @@ Hence, VI poses the problem of finding the $p(w \mid D)$ into a maximizing ELBO 
 
 % Let us consider, $$f(w,\theta) = \log \frac{q(\mathbf{w} \mid \theta)}{P(\mathbf{w}) P(\mathfrak{D} \mid \mathbf{w})}$$,  $$\implies f(\mathbf{w}, \theta)  \approx \sum_{i=1}^{n} \log q\left(\mathbf{w}^{(i)} \mid \theta\right)-\\ \log P\left(\mathbf{w}^{(i)}\right)-\log P\left(\mathfrak{D} \mid \mathbf{w}^{(i)}\right)$$, in which $w^{i}$ are the samples drawn from the variational posterior $q(w)$.
         
-%Substituting this in Equation \ref{optim_param} we get, 
+%Substituting this in equation \ref{optim_param} we get, 
 %\begin{equation}
 %    \theta^{*}=\operatorname{argmin}_{\theta}\newline \mathbb{E}_{q(\mathbf{w} %\mid \theta)} f(\mathbf{w}, \theta)
 %\end{equation}
@@ -153,7 +153,7 @@ Though the reparameterization method is able to achieve an approximation $q(w)$ 
 
 Flipout suggests using a posterior distribution ($q_{\theta}$) which is jointly used by every weight sample on the mini-batch, and an element-wise multiplication is performed by another rank-one sign matrix for every sample. A random sign matrix $E$ which is independent of posterior distribution $q_{\theta}$. The weight sampling is done by multiplying $E$ and the posterior distribution $$W = q_{\theta}, E$$.
 
-With the availability of the approximation $q(w)$ of $p(w \mid D)$ obtained using the VI method we can infer an output $y^{*}$ for any given input $x^{*}$ by integrating over the weights available as shown in Equation \ref{final_inference}.
+With the availability of the approximation $q(w)$ of $p(w \mid D)$ obtained using the VI method we can infer an output $y^{*}$ for any given input $x^{*}$ by integrating over the weights available as shown in equation \ref{final_inference}.
 
 \begin{equation}
     \label{final_inference}
@@ -179,7 +179,7 @@ With the availability of the approximation $q(w)$ of $p(w \mid D)$ obtained usin
 In this section, we will summarize the method used to quantify the uncertainty in 3D object detection.
 \subsection{Quantifying Epistemic Uncertainty in Agent Classification}
         \label{uncertainty in classification}
-        Uncertainty in classification can be quantified using the Shannon entropy of the final softmax scores in Equation \ref{Classification Uncertainty Equation}. As used by \textit{Feng et al.} \cite{Feng2018}, for an input of $x^{*}$, the classification probability of class for N monte-carlo inference runs is calculated using Equation \ref{prob_calc}. This probability is used to calculate Shannon entropy (SE).
+        Uncertainty in classification can be quantified using the Shannon entropy of the final softmax scores in equation \ref{Classification Uncertainty equation}. As used by \textit{Feng et al.} \cite{Feng2018}, for an input of $x^{*}$, the classification probability of class for N monte-carlo inference runs is calculated using equation \ref{prob_calc}. This probability is used to calculate Shannon entropy (SE).
 
         \begin{equation}
             \label{prob_calc}
@@ -190,7 +190,7 @@ In this section, we will summarize the method used to quantify the uncertainty i
         \end{equation}
         
         \begin{equation}
-            \label{Classification Uncertainty Equation}
+            \label{Classification Uncertainty equation}
             \begin{array}{l}
                 S E\left(\mathbf{y}^{*} \mid \mathbf{x}^{*}\right)=\mathbb{H}\left(\mathbf{y}^{*} \mid \mathbf{x}^{*}\right) \\
                 =-p\left(c \mid \mathbf{x}^{*}\right) \log p\left(c \mid \mathbf{x}^{*}\right)-p\left(\neg c \mid \mathbf{x}^{*}\right) \log p\left(\neg c \mid \mathbf{x}^{*}\right) \\
@@ -214,7 +214,7 @@ In this section, we will summarize the method used to quantify the uncertainty i
 %-------------------------------------------------------------------------
 \section{Experimental Results}
 \subsection{Training Frustum-PointNet }
-The Frustum-PointNet model is trained for 178 epochs on the frustums extracted. The loss values and 3D IoU values obtained during validation step are visualized in the Figure \ref{fig:Loss_F-PointNet} and Figure \ref{fig:IoU_F-PointNet}. The quantitative evaluation results of the Frustum PointNet is mentioned in Table \ref{3DAP Values-1}
+The Frustum-PointNet model is trained for 178 epochs on the frustums extracted. The loss values over the training steps and the 3D IoU values obtained during the validation step are shown in Figure \ref{fig:Loss_F-PointNet} and Figure \ref{fig:IoU_F-PointNet}, respectively. The quantitative evaluation results of the Frustum PointNet are shown in Table \ref{3DAP-Values-1}.
 
 \begin{figure}[!htbp]
 	\centering
@@ -278,7 +278,7 @@ The Frustum-PointNet model is trained for 178 epochs on the frustums extracted. 
         \hline \textbf{Hard} & 58.28  & 37.28  & 34.93  \\
         \hline
     \end{tabular}
-	\caption[3D AP calculated for 2D proposals generated from 3D Annotations]{3D Average Precision values for 3D object detection on Lyft dataset }
+	\caption[3D AP calculated for 2D proposals generated from 3D Annotations]{3D Average Precision values for 3D object detection on Lyft dataset.}
 	\label{3DAP Values-1}
     \end{table}
 \subsection{Bayesian Neural network modelling and evaluation}
@@ -377,7 +377,7 @@ The shannon entropies calculated using the softmax probabilities at each stage a
 \end{figure}
 \subsection{Visualizations}
 \subsubsection{Uncertainty due to agents blocking one other}
-The epistemic uncertainty of the car marked is high because of the car marked in green is blocking it in Image \ref{fig:Uncert_blockage-1}. Number of points available are very low in the bounding box, but the detection is made because of the bin size from the class in 2D object detection.
+The epistemic uncertainty of the car marked is high because of the car marked in green is blocking it in Figure \ref{fig:Uncert_blockage-1}. Number of points available are very low in the bounding box, but the detection is made because of the bin size from the class in 2D object detection.
 \begin{figure}[!htbp]
         \centering
 		\includegraphics[width=75mm, scale = 0.4]{images/Uncertainty_results/3461_overlap_bbox.png}
