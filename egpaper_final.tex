@@ -214,19 +214,19 @@ In this section, we will summarize the method used to quantify the uncertainty i
 %-------------------------------------------------------------------------
 \section{Experimental Results}
 \subsection{Training Frustum-PointNet }
-The Frustum-PointNet model is trained for 178 epochs on the frustums extracted. The loss values over the training steps and the 3D IoU values obtained during the validation step are shown in Figure \ref{fig:Loss_F-PointNet} and Figure \ref{fig:IoU_F-PointNet}, respectively. The quantitative evaluation results of the Frustum PointNet are shown in Table \ref{3DAP-Values-1}.
+The Frustum-PointNet model is trained for 178 epochs on the extracted frustum point clouds. The loss values over the training steps and the 3D IoU values obtained during the validation step are shown in Figure \ref{fig:Loss_F-PointNet} and Figure \ref{fig:IoU_F-PointNet}, respectively. The quantitative evaluation results of the Frustum PointNet are shown in Table \ref{3DAP_Values-1}.
 
 \begin{figure}[!htbp]
 	\centering
 	\includegraphics[scale = 0.4]{./images/LYFT_Detections/total_loss_1.pdf}
-	\caption{The loss values collected during training the Frustum PointNet}
+	\caption{Loss values collected during training Frustum PointNet}
 	\label{fig:Loss_F-PointNet}
 \end{figure}  
 
 \begin{figure}[!htbp]
 	\centering
 	\includegraphics[scale = 0.4]{./images/LYFT_Detections/iou_3d.pdf}
-	\caption{The 3D IoU values calculated during the validation step of the training process}
+	\caption{3D IoU values calculated during the validation step of training process}
 	\label{fig:IoU_F-PointNet}
 \end{figure}
  
@@ -278,34 +278,33 @@ The Frustum-PointNet model is trained for 178 epochs on the frustums extracted. 
         \hline \textbf{Hard} & 58.28  & 37.28  & 34.93  \\
         \hline
     \end{tabular}
-	\caption[3D AP calculated for 2D proposals generated from 3D Annotations]{3D Average Precision values for 3D object detection on Lyft dataset.}
-	\label{3DAP Values-1}
+	\caption[3D AP calculated for 2D proposals generated from 3D Annotations]{3D Average Precision values for 3D object detection.}
+	\label{3DAP_Values-1}
     \end{table}
 \subsection{Bayesian Neural network modelling and evaluation}
-We converted the Frustum-PointNet model into a Bayesian architecture using TensorFlow probability library \cite{Tran2019}. But, we observed that the model is severely under-fitting. From the Figure \ref{fig:Loss_BF-PointNet} which portrays the loss value during the Bayesian Frustum PointNet training it is inferred that the model is under-fitting.
-
+The Frustum-PointNet model was converted into Bayesian architecture using the TensorFlow probability library \cite{Tran2019}. However, From the Figure \ref{fig:Loss_BF-PointNet} representing the loss value during training it can be observed that the model is severely under-fitting.
 \begin{figure}[!htbp]
 	\centering
 	\includegraphics[scale = 0.4]{./images/loss.pdf}
-	\caption{The loss values collected during training the Bayesian Frustum PointNet}
+	\caption{Loss values collected during training Bayesian Frustum PointNet}
 	\label{fig:Loss_BF-PointNet}
 \end{figure}
 
-We converted the Frustum-PointNet model into partial-Bayesian model, by fixing the weights of instance segmentation model and converting the spatial-transformer network and bounding box network into Bayesian architecture which fitted well during training. 
+The Frustum-PointNet model was converted into a partial-Bayesian model, by fixing the weights of instance segmentation model and converting the spatial-transformer network and bounding box network into Bayesian architecture which fitted well during the training. 
 
-Comparing Figures \ref{fig:IoU_F-PointNet}, \ref{fig:IoU_PBF-PointNet} and Figures \ref{fig:Loss_F-PointNet}, \ref{fig:loss_PBF-PointNet} we can also observe the regularization effect of KL-Divergence between prior weight values and the posterior distribution leading to reduction in the amplitude of oscillations observed in both loss and IoU values.
+When comparing Figures \ref{fig:IoU_F-PointNet} and \ref{fig:IoU_PBF-PointNet} as well as Figures \ref{fig:Loss_F-PointNet} and \ref{fig:loss_PBF-PointNet} the regularization effect of KL-Divergence between prior weight values and the posterior distribution leading to reduction in the amplitude of oscillations in both loss and IoU values is observed. The quantitative evaluation results of the partial Bayesian Frustum PointNet are shown in Table \ref{3DAP_Values-2}.
 
 \begin{figure}[!htbp]
 	\centering
 	\includegraphics[scale = 0.4]{./images/Part-Bayesian F_Pointnet_Results/loss.pdf}
-	\caption{The loss values collected during training the partial Bayesian Frustum PointNet}
+	\caption{Loss values collected during the training of partial Bayesian Frustum PointNet}
 	\label{fig:loss_PBF-PointNet}
 \end{figure}
 
 \begin{figure}[!htbp]
 	\centering
 	\includegraphics[scale = 0.4]{./images/Part-Bayesian F_Pointnet_Results/iou_3d.pdf}
-	\caption{The 3D IoU values collected during validation step of training the partial Bayesian Frustum PointNet}
+	\caption{3D IoU values collected during validation of partial Bayesian Frustum PointNet}
 	\label{fig:IoU_PBF-PointNet}
 \end{figure}
 
@@ -337,13 +336,13 @@ Comparing Figures \ref{fig:IoU_F-PointNet}, \ref{fig:IoU_PBF-PointNet} and Figur
         \hline \textbf{Hard} & 59.8  & 36.28  & 39.93  \\
         \hline
     \end{tabular}
-	\caption[3D AP calculated for 2D proposals generated from 3D Annotations]{3D Average Precision values for 3D object detection on Lyft dataset  \cite{Lyft2019}}
-	\label{3DAP Values-2}
+	\caption[3D AP calculated for 2D proposals generated from 3D Annotations]{3D Average Precision values for 3D object detection }
+	\label{3DAP_Values-2}
     \end{table}
-\subsection{Epistemic Uncertainty Quantification and Analysis}
-The epistemic uncertainty in the 3D object detection task is calculated from the multiple Monte Carlo runs. During these inference runs, weights are sampled from the approximated distribution $q(w)$. The resultant models hold different sampled weights and form an ensemble like architecture and helps in extracting epistemic uncertainty. The epistemic uncertainty is quantified using Shannon entropy and Total variance. We used the bounding box dimensions, bounding box center and rotation angle to calculate the epistemic uncertainty.
+\subsection{Uncertainty Quantification and Analysis}
+The uncertainty in the 3D object detection task is calculated from the multiple Monte Carlo runs. During these inference runs, weights are sampled from the approximated distribution $q(w)$. The resultant models hold different sampled weights and form an ensemble like architecture and helps in extracting epistemic uncertainty. The uncertainty is quantified using Shannon entropy and Total variance. We used the bounding box dimensions, bounding box center and rotation angle to calculate the uncertainty.
 
-The shannon entropies calculated using the softmax probabilities at each stage and are plotted as follows 
+The shannon entropies calculated using the softmax probabilities at each stage represents the epistemic uncertainty in the Frustum-PointNet and are plotted as follows: 
 \begin{table}[!htbp]
     \centering
     \begin{tabular}{|c|c|c|c|}
@@ -354,95 +353,97 @@ The shannon entropies calculated using the softmax probabilities at each stage a
         \hline \textbf{Aleatoric Uncertainty} & 0.91 & 3.6 & 1.95 \\
         \hline
     \end{tabular}
-	\caption{Uncertainty statistics from the multiple Monte-Carlo runs \label{tab:Uncertianty Statistics} which shows that the epistemic uncertainty is higher for the pedestrian and the cyclist. Since, the samples are from the same dataset used for training we considered the data-domain variance to be zero}
+	\label{UQ_Quant}	
+	\caption{Uncertainty statistics from multiple Monte-Carlo runs \label{tab:Uncertianty Statistics}.}
 \end{table}
 
 \begin{figure}[!htbp]
         \centering
 		\includegraphics[scale = 0.4]{./images/Part-Bayesian F_Pointnet_Results/Entropy_Car.pdf}
-        \caption[Extracted frustum point cloud after Normalization]{Entropy for Car detection}
+        \caption[Extracted frustum point cloud after Normalization]{Entropy for car detection}
         \label{fig:Norm Point Cloud}
 \end{figure}
 \begin{figure}[!htbp]
         \centering
 		\includegraphics[scale = 0.4]{images/Part-Bayesian F_Pointnet_Results/Entropy_Cyclist.pdf}
-        \caption[Extracted frustum point cloud after Normalization]{Entropy for Cyclist detection}
+        \caption[Extracted frustum point cloud after Normalization]{Entropy for cyclist detection}
         \label{fig:Norm Point Cloud}
 \end{figure}
 \begin{figure}[!htbp]
         \centering
 		\includegraphics[scale = 0.4]{images/Part-Bayesian F_Pointnet_Results/Entropy_Pedestrian.pdf}
-        \caption[Extracted frustum point cloud after Normalization]{Entropy for Pedestrian detection}
+        \caption[Extracted frustum point cloud after Normalization]{Entropy for pedestrian detection}
         \label{fig:Norm Point Cloud}
 \end{figure}
+Table \ref{UQ_Quant} shows that the epistemic uncertainty is higher for the pedestrian and the cyclist. Since, the samples are from the same dataset used for training we considered the data-domain variance to be zero
 \subsection{Visualizations}
-\subsubsection{Uncertainty due to agents blocking one other}
-The epistemic uncertainty of the car marked is high because of the car marked in green is blocking it in Figure \ref{fig:Uncert_blockage-1}. Number of points available are very low in the bounding box, but the detection is made because of the bin size from the class in 2D object detection.
+\subsubsection{Uncertainty due to agents blocking one another}
+The epistemic uncertainty of the car labeled red is high because the car labeled in green is blocking it in Figure \ref{fig:Uncert_blockage-1_1}. The higher epistemic uncertainty is due to the number of points available being very low in the bounding box, but the detection is still made because of the information from 2D object detector.
 \begin{figure}[!htbp]
         \centering
 		\includegraphics[width=75mm, scale = 0.4]{images/Uncertainty_results/3461_overlap_bbox.png}
-        \caption[Extracted frustum point cloud after Normalization]{Predictions in the image plane.}
-        \label{fig:Uncert_blockage-1}
+        \caption[Extracted frustum point cloud after Normalization]{Predictions in image plane.}
+        \label{fig:Uncert_blockage-1_1}
 \end{figure}
 \begin{figure}[!htbp]
         \centering
 		\includegraphics[width=75mm, scale = 0.4]{images/Uncertainty_results/3461_Follow_cam_view.png}
-        \caption[Extracted frustum point cloud after Normalization]{Predictions in the LiDAR plane.}
-        \label{fig:Uncert_blockage-1}
+        \caption[Extracted frustum point cloud after Normalization]{Predictions in LiDAR plane.}
+        \label{fig:Uncert_blockage-1_2}
 \end{figure}
 \begin{figure}[!htbp]
         \centering
 		\includegraphics[width=75mm,scale = 0.4]{images/Uncertainty_results/3461_overlap.png}
-        \caption[Extracted frustum point cloud after Normalization]{Predictions in the BEV projection of the LiDAR point cloud.}
-        \label{fig:Uncert_blockage-1}
+        \caption[Extracted frustum point cloud after Normalization]{Predictions in BEV projection of LiDAR point cloud.}
+        \label{fig:Uncert_blockage-1_3}
 \end{figure}
 \subsubsection{Epistemic uncertainty due to cluttered environments}
-The epistemic uncertainty in a cluttered environment is high for every object present in the clutter. The total variance for every object as well is very high when compared to a non-cluttered scene. Because of the overlaps in the detection, the point cloud of one object is affecting the other underlying objects as well which results in high entropy outputs.
+The epistemic uncertainty in a cluttered environment is high for each object present in the clutter. The total variance is very high when compared to a non-cluttered scene. Due to the overlap in the detections, the point cloud of one object affects the other underlying objects as well which also results in high entropy outputs.
 \begin{figure}[!htbp]
         \centering
 		\includegraphics[width=75mm, scale = 0.4]{images/Uncertainty_results/5226_cluttered_bbox.png}
-        \caption[Extracted frustum point cloud after Normalization]{Predictions in the image plane.}
-        \label{fig:Uncert_blockage-1}
+        \caption[Extracted frustum point cloud after Normalization]{Predictions in image plane.}
+        \label{fig:Uncert_blockage-2_1}
 \end{figure}
 \begin{figure}[!htbp]
         \centering
 		\includegraphics[width=75mm, scale = 0.4]{images/Uncertainty_results/5226_Follow_cam_view.png}
-        \caption[Extracted frustum point cloud after Normalization]{Predictions in the LiDAR plane.}
-        \label{fig:Uncert_blockage-1}
+        \caption[Extracted frustum point cloud after Normalization]{Predictions in LiDAR plane.}
+        \label{fig:Uncert_blockage-2_2}
 \end{figure}
 \begin{figure}[!htbp]
         \centering
 		\includegraphics[width=75mm,scale = 0.4]{images/Uncertainty_results/5226_cluttered.png}
-        \caption[Extracted frustum point cloud after Normalization]{Predictions in the BEV projection of the LiDAR point cloud.}
-        \label{fig:Uncert_blockage-1}
+        \caption[Extracted frustum point cloud after Normalization]{Predictions in BEV projection of LiDAR point cloud.}
+        \label{fig:Uncert_blockage-2_3}
 \end{figure}
 \subsubsection{Epistemic uncertainty due to distance to objects}
-The epistemic uncertainty of the car marked in red is at a distance from the ego-vehicle which might result in:
+The epistemic uncertainty of the car labeled in red is at a distance from the ego-vehicle which might result in:
         \begin{itemize}
             \item Reduced number of points in the extracted point cloud.
-            \item Increased in the angle between centroid of the point cloud and the heading angle of the frustum point cloud, which might result in a overlapped bin size 
+            \item Increased angle between centroid of the point cloud and the heading angle of the frustum point cloud, which might result in an overlapped bin size 
         \end{itemize}
 \begin{figure}[!htbp]
         \centering
 		\includegraphics[width=75mm, scale = 0.4]{images/Uncertainty_results/3535_distance_-bbox.png}
-        \caption[Extracted frustum point cloud after Normalization]{Predictions in the image plane.}
-        \label{fig:Uncert_blockage-1}
+        \caption[Extracted frustum point cloud after Normalization]{Predictions in image plane.}
+        \label{fig:Uncert_blockage-3_1}
 \end{figure}
 \begin{figure}[!htbp]
         \centering
 		\includegraphics[width=75mm, scale = 0.4]{images/Uncertainty_results/3535_Follow_cam_view.png}
-        \caption[Extracted frustum point cloud after Normalization]{Predictions in the LiDAR plane.}
-        \label{fig:Uncert_blockage-1}
+        \caption[Extracted frustum point cloud after Normalization]{Predictions in LiDAR plane.}
+        \label{fig:Uncert_blockage-3_2}
 \end{figure}
 \begin{figure}[!htbp]
         \centering
 		\includegraphics[width=75mm,scale = 0.4]{images/Uncertainty_results/3535_distance.png}
-        \caption[Extracted frustum point cloud after Normalization]{Predictions in the BEV projection of the LiDAR point cloud.}
-        \label{fig:Uncert_blockage-1}
+        \caption[Extracted frustum point cloud after Normalization]{Predictions in BEV projection of LiDAR point cloud.}
+        \label{fig:Uncert_blockage-3_3}
 \end{figure}
 %-------------------------------------------------------------------------
 \section{Conclusion and Future works}
-In this paper, A fixed-weight Frustum-PointNet \cite{FPointnet2018} architecture is trained to solve the 3-Dimensional (3D) object detection problem in the context of autonomous driving. The network is trained and tested on the Lyft dataset \cite{Lyft2019}. It was observed that the network performed on the same level as the network trained using the KITTI dataset \cite{KITTI2012}. This comparison is done based on 3D Average-Precision values calculated using fixed limits set on Intersection-over-Union values.
+In this paper, A fixed-weight Frustum-PointNet \cite{FPointnet2018} architecture is trained to solve the 3-Dimensional (3D) object detection problem in the context of autonomous driving. It was observed that the network performed on the same level as the network trained using the KITTI dataset \cite{KITTI2012}. This comparison is done based on 3D Average-Precision values calculated using fixed limits set on Intersection-over-Union values.
     
 Furthermore, a Bayesian Neural Network is modelled based on the Frustum-PointNet \cite{FPointnet2018} to extract the uncertainty due to the weights. It could be concluded that the BNN performed better than the fixed-weight model.
 % But, we observed that the difference in performance is not as expected. We believe that with the better tuning of the prior distribution placed on the weights, we can achieve better results.  ??
